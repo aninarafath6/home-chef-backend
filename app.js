@@ -6,12 +6,14 @@ var app =express();
 
 
 var admin_router = require('./routes/admin.js');
+var sale_router = require('./routes/sale_report');
 
 
 app.use(express.json());
 app.use(cors())
 app.use(express.urlencoded({extended:true}));
 
+app.use('/', sale_router);
 
 app.use('/', admin_router);
 
