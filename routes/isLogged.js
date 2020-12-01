@@ -1,7 +1,8 @@
-var jwt = require('jsonwebtoken')
-module.exports =validUser=(req,res,next)=>{
-    return new Promise((resolve,reject)=>{
-        
+var express = require('express')
+var router = express.Router();
+var jwt   = require('jsonwebtoken')
+
+router.get('/isLogged',(req,res)=>{
     let authHedder = req.headers.authorazation;
     if (authHedder ==undefined) {
         console.log("token is undefined");
@@ -9,20 +10,17 @@ module.exports =validUser=(req,res,next)=>{
         
         
         
-    }
-   else{
+    }  else{
     let token =authHedder.split(' ')[1];
     jwt.verify(token,'key',(err,decode)=>{
         if(err) {
             res.send({loggin:false})  
 
         }else{
-        resolve(decode)
-
-        next();
+        res.send(decode)
         }
     })
    }
-    })
-    
-};
+})
+
+module.exports = router;

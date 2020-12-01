@@ -2,6 +2,7 @@ var db = require('../config/connection')
 var collection = require('../config/collections')
 var bcrypt = require('bcrypt')
 var mongo = require('mongodb')
+const { ADMIN_COLLECTION } = require('../config/collections')
 module.exports = {
     isLogin: (adminData) => {
         return new Promise(async (resolve, reject) => {
@@ -34,5 +35,20 @@ module.exports = {
 
 
         })
+    },
+    add_vendor:(vendor_data)=>{
+        return new Promise((resolve,reject)=>{
+            db.get().collection(collection.VENDOR_COLLECTION).insertOne(vendor_data).then((res)=>{
+                resolve(res.ops[0]._id);
+            })
+        })
+    },
+    get_all_vendors:()=>{
+      return new Promise(async(resolve,reject)=>{
+           let vendors = await db.get().collection(collection.VENDOR_COLLECTION).find({}).toArray();
+
+           resolve(vendors)
+           console.log(vendors);
+      })
     }
 }

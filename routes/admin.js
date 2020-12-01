@@ -3,8 +3,7 @@ var express = require('express');
 var router = express.Router();
 var admin_helpers = require('../helpers/admin_helper')
 var jwt = require("jsonwebtoken");
-
-
+var validUser = require('../helpers/valid_user')
 router.post('/login', (req, res) => {
     admin_helpers.isLogin(req.body).then((response) => {
 
@@ -22,6 +21,30 @@ router.post('/login', (req, res) => {
             
         }
 
+    })
+
+})
+
+router.post('/add-vendor',(req,res)=>{
+   admin_helpers.add_vendor(req.body).then((id)=>{
+          let img=req.files.image;
+          img.mv("./public/vendor_images/" + id + ".jpg",(err, done) => {
+      if (err){
+                 res.send({status:false})
+
+      };
+   
+
+
+    })
+       res.send({status:true})
+})
+ 
+})
+
+router.get('/vendors',validUser,(req,res)=>{
+    admin_helpers.get_all_vendors().then((response)=>{
+        res.send({vendors:response});
     })
 
 })
