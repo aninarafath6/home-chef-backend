@@ -42,11 +42,46 @@ router.post('/add-vendor',(req,res)=>{
  
 })
 
-router.get('/vendors',validUser,(req,res)=>{
+router.get('/vendors',(req,res)=>{
     admin_helpers.get_all_vendors().then((response)=>{
         res.send({vendors:response});
     })
 
 })
 
+router.get('/uneditedData/',(req,res)=>{
+    admin_helpers.uneditedData(req.query.id).then((response)=>{
+        res.send({vendor:response})
+    })
+
+})
+
+router.post('/update-vendor/:id',(req,res)=>{
+console.log(req.body);
+admin_helpers.update_vendor(req.body,req.params.id).then((response)=>{
+     let img=req.files.img;
+          img.mv("./public/vendor_images/" + req.params.id + ".jpg",(err, done) => {
+      if (err){
+                 res.send({status:false})
+
+      };
+   
+
+
+    })
+       res.redirect('http://localhost:3000/vendor')
+
+})
+
+
+    
+})
+
+router.delete('/remove_vendor/:id',(req,res)=>{
+admin_helpers.remove_a_vendor(req.params.id).then((response)=>{
+    console.log(response)
+    res.send(response);
+})
+
+})
 module.exports = router;

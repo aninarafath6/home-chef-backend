@@ -3,6 +3,7 @@ var collection = require('../config/collections')
 var bcrypt = require('bcrypt')
 var mongo = require('mongodb')
 const { ADMIN_COLLECTION } = require('../config/collections')
+var objectId = require('mongodb').ObjectID;
 module.exports = {
     isLogin: (adminData) => {
         return new Promise(async (resolve, reject) => {
@@ -48,7 +49,33 @@ module.exports = {
            let vendors = await db.get().collection(collection.VENDOR_COLLECTION).find({}).toArray();
 
            resolve(vendors)
-           console.log(vendors);
+        
       })
+    },
+    uneditedData:(vendor_id)=>{
+            return new Promise(async(resolve,reject)=>{
+
+                let vendor = await db.get().collection(collection.VENDOR_COLLECTION).findOne({_id:objectId(vendor_id)});
+resolve(vendor)                
+            })
+    },
+    update_vendor:(newVendorData,id)=>{
+        return new Promise((resolve,reject)=>{
+            db.get().collection(collection.VENDOR_COLLECTION).updateOne({_id:objectId(id)},{
+                $set:{
+                    name:newVendorData.vendor_name,
+                    shope_name:newVendorData.shope_name,
+                    location:newVendorData.location,
+                    serviceTime:newVendorData.service_taime,
+                    serviceDays:newVendorData.select,
+                }
+            }).then((res)=>{
+              resolve()
+            
+            })
+        })
+    },
+    remove_a_vendor:(vendor_id)=>{
+            db.get().collection(collection.VENDOR_COLLECTION).deleteOne({_id:objectId(vendor_id)})
     }
 }
