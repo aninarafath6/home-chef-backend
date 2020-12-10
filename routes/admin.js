@@ -13,7 +13,7 @@ router.post('/login', (req, res) => {
                 name: response.admin.name
 
             }
-            let token = jwt.sign(data, "key", { expiresIn: 86400 });
+            let token = jwt.sign(data,process.env.JWT_SECRET, { expiresIn: 86400 });
             response.token = token;
             res.send(response)
         }else{

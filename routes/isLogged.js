@@ -4,6 +4,7 @@ var jwt   = require('jsonwebtoken')
 
 router.get('/isLogged',(req,res)=>{
     let authHedder = req.headers.authorazation;
+    console.log(authHedder);
     if (authHedder ==undefined) {
         console.log("token is undefined");
         res.send({loggin:false})  

@@ -12,7 +12,7 @@ module.exports =validUser=(req,res,next)=>{
     }
    else{
     let token =authHedder.split(' ')[1];
-    jwt.verify(token,'key',(err,decode)=>{
+    jwt.verify(token,process.env.JWT_SECRET,(err,decode)=>{
         if(err) {
             res.send({loggin:false})  
 

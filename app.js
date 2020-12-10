@@ -10,6 +10,8 @@ var admin_router = require('./routes/admin.js');
 var sale_router = require('./routes/sale_report');
 var isLogged = require('./routes/isLogged');
 var authenticate = require('./routes/authentiacte')
+var sms_OAth_router = require('./routes/oauth_with_sms')
+var user_router = require('./routes/user')
 
 app.use(express.json());
 app.use(cors())
@@ -22,6 +24,8 @@ app.use('/', sale_router);
 app.use('/', admin_router);
 app.use('/', isLogged);
 app.use('/auth', authenticate);
+app.use('/auth/sms', sms_OAth_router);
+app.use('/user',user_router);
 
 db.connect((err)=>{
     if(err) throw err;
