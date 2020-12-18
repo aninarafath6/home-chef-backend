@@ -1,7 +1,6 @@
 const { Router, response } = require('express');
 var express = require('express');
 var router = express.Router();
-var admin_helpers = require('../helpers/admin_helper')
 var jwt = require("jsonwebtoken");
 var db = require('../config/connection')
 var collection = require('../config/collections')

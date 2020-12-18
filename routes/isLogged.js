@@ -1,7 +1,7 @@
 var express = require('express')
 var router = express.Router();
 var jwt   = require('jsonwebtoken')
-
+require('dotenv')
 router.get('/isLogged',(req,res)=>{
     let authHedder = req.headers.authorazation;
     console.log(authHedder);
@@ -13,12 +13,12 @@ router.get('/isLogged',(req,res)=>{
         
     }  else{
     let token =authHedder.split(' ')[1];
-    jwt.verify(token,'key',(err,decode)=>{
+    jwt.verify(token,process.env.JWT_SECRET,(err,decode)=>{
         if(err) {
             res.send({loggin:false})  
 
         }else{
-        res.send(decode)
+        res.send({loggin:true})
         }
     })
    }
