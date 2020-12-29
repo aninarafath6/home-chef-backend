@@ -45,21 +45,27 @@ router.post("/add-vendor", validUser, (req, res) => {
 //   });
 // });
 
-router.get("/uneditedData/", validUser, (req, res) => {
-  vendor_management.uneditedData(req.query.id).then((response) => {
+router.get("/uneditedData/:id", validUser, (req, res) => {
+  console.log(req.params.id0000000)
+  vendor_management.uneditedData(req.params.id).then((response) => {
     res.send({ vendor: response });
   });
 });
 
-router.post("/update-vendor/:id", validUser, (req, res) => {
+router.post("/update-vendor/:id", (req, res) => {
   console.log(req.body);
   vendor_management.update_vendor(req.body, req.params.id).then((response) => {
-    let img = req.files.img;
-    img.mv("./public/vendor_images/" + req.params.id + ".jpg", (err, done) => {
-      if (err) {
-        res.send({ status: false });
-      }
-    });
+    if (req.files) {
+      let img = req.files.img;
+      img.mv(
+        "./public/vendor_images/" + req.params.id + ".jpg",
+        (err, done) => {
+          if (err) {
+            res.send({ status: false });
+          }
+        }
+      );
+    }
     res.redirect("http://localhost:3000/vendor");
   });
 });
