@@ -31,6 +31,9 @@ client.verifyIdToken({idToken:tokenId,audience:process.env.CLINT_ID}).then(respo
                     let newUser={
                         name:name,
                         email:email,
+                        phone:"XXXXXXXXXX",
+                        auth:'google',
+                        status:'active'
                     }
                     db.get().collection(collection.USER_COLLECTION).insertOne(newUser).then(response=>{
                          const data ={

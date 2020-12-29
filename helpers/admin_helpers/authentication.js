@@ -15,6 +15,7 @@ module.exports = {
         .get()
         .collection(collection.ADMIN_COLLECTION)
         .findOne({ email: adminData.email });
+        console.log(admin);
       if (admin) {
         bcrypt.compare(adminData.password, admin.password).then((status) => {
           if (status) {

@@ -15,7 +15,7 @@ return new Promise((resolve,reject)=>{
              "cart_items.item": object_id(data.item_id),
            },
            {
-            $push:{"cart_items.item":"data.quantity"}
+            $set:{'cart_items.$.quantity':data.quantity}
            },
          )
          .then((response) => {
@@ -24,7 +24,7 @@ return new Promise((resolve,reject)=>{
          });
        
    }else{
-        if(data.quantity === 0 && data.value === -1){
+        if(data.quantity === 1 && data.value === -1){
         db.get()
           .collection(collections.USER_CART_COLLECTION)
           .updateOne(

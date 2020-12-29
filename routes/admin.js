@@ -2,10 +2,16 @@ const { Router, response } = require("express");
 var express = require("express");
 var router = express.Router();
 var vendor_management = require("../helpers/admin_helpers/vendor_management");
-var authentication  = require('../helpers/admin_helpers/authentication')
+var authentication = require("../helpers/admin_helpers/authentication");
 var jwt = require("jsonwebtoken");
 var validUser = require("../helpers/valid_user");
+var display_vendors = require("../helpers/admin_helpers/vendor/display_vendor");
+var display_all_users = require("../helpers/admin_helpers/user_management/display_all_users");
+var block_user = require('../helpers/admin_helpers/user_management/block_user')
+var un_block_user = require('../helpers/admin_helpers/user_management/un_block_user')
+
 router.post("/login", (req, res) => {
+  console.log("at login" + req.body);
   authentication.isLogin(req.body).then((response) => {
     if (response.login) {
       let data = {
@@ -21,7 +27,7 @@ router.post("/login", (req, res) => {
   });
 });
 
-router.post("/add-vendor", (req, res) => {
+router.post("/add-vendor", validUser, (req, res) => {
   vendor_management.add_vendor(req.body).then((id) => {
     let img = req.files.image;
     img.mv("./public/vendor_images/" + id + ".jpg", (err, done) => {
@@ -33,19 +39,19 @@ router.post("/add-vendor", (req, res) => {
   });
 });
 
-router.get("/vendors", (req, res) => {
-  vendor_management.get_all_vendors().then((response) => {
-    res.send({ vendors: response });
-  });
-});
+// router.get("/vendors", (req, res) => {
+//   vendor_management.get_all_vendors().then((response) => {
+//     res.send({ vendors: response });
+//   });
+// });
 
-router.get("/uneditedData/", (req, res) => {
+router.get("/uneditedData/", validUser, (req, res) => {
   vendor_management.uneditedData(req.query.id).then((response) => {
     res.send({ vendor: response });
   });
 });
 
-router.post("/update-vendor/:id", (req, res) => {
+router.post("/update-vendor/:id", validUser, (req, res) => {
   console.log(req.body);
   vendor_management.update_vendor(req.body, req.params.id).then((response) => {
     let img = req.files.img;
@@ -58,11 +64,41 @@ router.post("/update-vendor/:id", (req, res) => {
   });
 });
 
-router.post("/remove_vendor", (req, res) => {
-   
+router.post("/remove_vendor", validUser, (req, res) => {
   vendor_management.remove_a_vendor(req.body.id).then((response) => {
     console.log(response);
-    res.send({ok:true});
+    res.send({ ok: true });
+  });
+});
+router.get("/vendors", validUser, (req, res) => {
+  display_vendors().then((response) => {
+    res.send({ data: response });
+  });
+});
+
+router.get("/display-all-users", validUser, (req, res) => {
+  display_all_users().then((response) => {
+    res.send({data:response});
+  });
+});
+
+router.post("/block-user",validUser,(req,res)=>{
+block_user(req.body.id).then(response=>{
+  res.send({status:true})
+  
+}).catch(err=>{
+  res.status(400).send({status:false})
+})
+});
+
+
+router.post("/un-block-user",validUser,(req,res)=>{
+un_block_user(req.body.id)
+  .then((response) => {
+    res.send({ status: true });
+  })
+  .catch((err) => {
+    res.status(400).send({ status: false });
   });
 });
 module.exports = router;

@@ -18,7 +18,7 @@ module.exports =validUser=(req,res,next)=>{
 
         }else{
         resolve(decode)
-
+//  res.send({loggin:true})  
         next();
         }
     })
