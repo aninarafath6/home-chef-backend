@@ -9,7 +9,12 @@ var display_vendors = require("../helpers/admin_helpers/vendor/display_vendor");
 var display_all_users = require("../helpers/admin_helpers/user_management/display_all_users");
 var block_user = require('../helpers/admin_helpers/user_management/block_user')
 var un_block_user = require('../helpers/admin_helpers/user_management/un_block_user')
-
+var add_category = require('../helpers/admin_helpers/category/add_category')
+var display_category = require('../helpers/admin_helpers/category/display_category')
+var update_category = require('../helpers/admin_helpers/category/update_category');
+var remove_category = require('../helpers/admin_helpers/category/remove_category')
+var order_management = require('../helpers/admin_helpers/order_management/order_management')
+var dashboard = require('../helpers/admin_helpers/dashboard/dashboard') 
 router.post("/login", (req, res) => {
   console.log("at login" + req.body);
   authentication.isLogin(req.body).then((response) => {
@@ -107,4 +112,59 @@ un_block_user(req.body.id)
     res.status(400).send({ status: false });
   });
 });
+
+
+
+
+router.post('/add-category',(req,res)=>{
+add_category(req.body).then(response=>{
+  res.send(response)
+}).catch(err=>{
+  res.status(400).send(err)
+})
+
+})
+
+
+
+router.get('/display-category',(req,res)=>{
+  display_category().then(response=>{
+    res.send(response)
+  })
+})
+
+
+router.post('/update-category',(req,res)=>{
+  
+
+  update_category(req.body).then(response=>{
+    res.send(response);
+
+  }).catch(err=>{
+    res.send(err)
+  })
+})
+dashboard
+
+router.post('/remove-category',(req,res)=>{
+remove_category(req.body).then(response=>{
+res.send(response)
+})
+})
+
+
+router.get("/order-management",(req,res)=>{
+  order_management().then(response=>{
+    res.send(response);
+  
+  })
+});
+
+router.get('/dashboard',validUser,(req,res)=>{
+  dashboard().then(response=>{
+    res.send(response)
+  })
+})
+
 module.exports = router;
+
