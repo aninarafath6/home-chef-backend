@@ -40,6 +40,7 @@ router.post("/add_vender", is_valid_vendor, (req, res) => {
   router.get("/get_all_prodects", is_valid_vendor, (req, res) => {
     let token = req.headers.authorazation;
     get_all_food(token).then((response) => {
+      console.log(response);
       res.send({food_item: response.item });
     });
   });

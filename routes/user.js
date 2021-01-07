@@ -109,6 +109,7 @@ router.post("/place-order", is_logged_user, async (req, res) => {
   let products = await getProductList(token);
   let total = await get_total(token);
   place_order(req.body, products, total, token).then((response) => {
+    
     if (req.body.payment == "cod") {
       res.json({ codSuccess: true });
     } else if (req.body.payment == "RazorPay") {

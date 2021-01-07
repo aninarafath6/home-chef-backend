@@ -71,7 +71,7 @@ router.post("/update-vendor/:id", (req, res) => {
         }
       );
     }
-    res.redirect("http://localhost:3000/vendor");
+    res.redirect("http://localhost:3002/vendor");
   });
 });
 
@@ -81,7 +81,7 @@ router.post("/remove_vendor", validUser, (req, res) => {
     res.send({ ok: true });
   });
 });
-router.get("/vendors", validUser, (req, res) => {
+router.get("/vendors", (req, res) => {
   display_vendors().then((response) => {
     res.send({ data: response });
   });
