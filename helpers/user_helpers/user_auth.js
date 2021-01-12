@@ -5,6 +5,9 @@ var bcrypt = require("bcrypt");
 var db = require("../../config/connection");
 var jwt = require("jsonwebtoken");
 
+const client = require('twilio')(process.env.ACCOUNT_SID,process.env.AUTH_TOKEN)
+
+
 module.exports = {
   user_signup: (user_data) => {
     return new Promise(async (resolve, reject) => {
@@ -73,6 +76,7 @@ module.exports = {
       var format = /[0-9]\w+/g;
       if (format.test(input)) {
         // this input is phone
+        
         let already_mobile_exist = await db
           .get()
           .collection(collection.USER_COLLECTION)
@@ -95,7 +99,10 @@ module.exports = {
             .then((response) => {
               // console.log(response);
               resolve({ type: "otp", otp_sended: true });
-            });
+            
+            }).catch((err)=>{
+              console.log(err);
+            })
         } else {
           resolve({ type: undefined, otp_sended: false, user: false });
         }

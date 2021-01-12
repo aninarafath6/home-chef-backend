@@ -4,7 +4,7 @@ var db = require('./config/connection')
 var cors = require('cors');
 var app =express();
 var fileUploder = require('express-fileupload');
-
+var bcrypt = require("bcrypt");
 
 var admin_router = require('./routes/admin.js');
 var sale_router = require('./routes/sale_report');
@@ -34,10 +34,9 @@ db.connect((err)=>{
     console.log("connected to database");
 });
 
+
 const PORT = process.env.PORT || 3008;
 app.listen(PORT,console.log(`connected to ${PORT}`));
-
-
 
 
 

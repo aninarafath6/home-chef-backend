@@ -1,7 +1,13 @@
-const { Router, response } = require('express');
+require('dotenv').config()
 var express = require('express');
 var router = express.Router();
 var jwt = require("jsonwebtoken");
+const data =process.env.ACCOUNT_SID;
+
+console.log(process.env.ACCOUNT_SID);
+
+
+
 const client = require('twilio')(process.env.ACCOUNT_SID,process.env.AUTH_TOKEN)
     router.post('/login',(req,res)=>{
 console.log(req.body);

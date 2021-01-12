@@ -16,6 +16,9 @@ var display_orders = require("../helpers/user_helpers/orders/display_order");
 var generateRazorPay = require("../helpers/user_helpers/orders/online_payment/razorPay/generateRazorpay");
 var verify_razorPay_payment = require("../helpers/user_helpers/orders/online_payment/razorPay/razor_pay_verify");
 var change_order_status = require("../helpers/user_helpers/orders/chenge_order_status");
+var our_shopes = require('../helpers/user_helpers/display_ourShopes/display_our_shopes')
+var top_shopes = require('../helpers/user_helpers/display_ourShopes/top_shopes')
+var menus = require('../helpers/user_helpers/display_menus/display_menu')
 router.post("/signup", (req, res) => {
   user_auth.user_signup(req.body).then((response) => {
     res.send({
@@ -28,6 +31,7 @@ router.post("/signup", (req, res) => {
 });
 
 router.get("/isLogged", (req, res) => {
+  console.log(req.body);
   user_auth.isLogged(req).then((response) => {
     res.send(response.loggin);
   });
@@ -154,4 +158,22 @@ router.get("/getTotalPrice", is_logged_user, (req, res) => {
     res.send({ total: response });
   });
 });
+
+router.get("/our-shope", (req, res) => {
+  our_shopes().then((response) => {
+    res.send({ data: response });
+  });
+});
+router.get("/top-shope", (req, res) => {
+  top_shopes().then((response) => {
+    res.send({ data: response });
+  });
+});
+router.get('/menu:id',(req,res)=>{
+  console.log({paramss:req.params.id});
+  menus(req.params.id).then(response=>{
+res.send({data:response})
+  })
+
+})
 module.exports = router;

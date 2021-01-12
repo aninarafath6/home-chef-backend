@@ -21,18 +21,19 @@ return new Promise(async(resolve,reject)=>{
         status:status
     }
      db.get().collection(collections.ORDER_COLLECTION).insertOne(orderObject).then(response=>{
-
+console.log(response.ops[0]);
        resolve({
          status: status,
          order_id: response.ops[0]._id,
          total: response.ops[0].totalAmount.total,
        });
-     })
-    db.get()
-      .collection(collections.USER_CART_COLLECTION)
-      .removeOne({ user_id: object_id(decoded_token.id) })
-      .then((response) => {
-        resolve({status:status});
-      });
+     }).catch(err=>{
+console.log(err);     })
+    // db.get()
+    //   .collection(collections.USER_CART_COLLECTION)
+    //   .removeOne({ user_id: object_id(decoded_token.id) })
+    //   .then((response) => {
+    //     resolve({status:status});
+    //   });
 })
 }

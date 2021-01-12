@@ -32,7 +32,7 @@ router.post("/login", (req, res) => {
   });
 });
 
-router.post("/add-vendor", validUser, (req, res) => {
+router.post("/add-vendor", (req, res) => {
   vendor_management.add_vendor(req.body).then((id) => {
     let img = req.files.image;
     img.mv("./public/vendor_images/" + id + ".jpg", (err, done) => {

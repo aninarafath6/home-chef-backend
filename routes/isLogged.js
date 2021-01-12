@@ -4,7 +4,7 @@ var jwt   = require('jsonwebtoken')
 require('dotenv')
 router.get('/isLogged',(req,res)=>{
     let authHedder = req.headers.authorazation;
-    console.log(authHedder);
+    console.log(req.body);
     if (authHedder ==undefined) {
         console.log("token is undefined");
         res.send({loggin:false})  
