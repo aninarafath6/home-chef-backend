@@ -4,7 +4,7 @@ const state = {
 }
 module.exports.connect = (done) => {
     const url = 'mongodb+srv://anin:gdLUr6509fO4JFGY@home-chef.tczol.mongodb.net/home-chef?retryWrites=true&w=majority';
-    const dbname = 'home_chef';
+    const dbname = 'home-chef';
     mongoClient.connect(url, { useUnifiedTopology: true }, (err, data) => {
         if (err) return done(err)
         state.db = data.db(dbname)
