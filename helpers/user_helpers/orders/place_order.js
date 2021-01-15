@@ -29,11 +29,11 @@ console.log(response.ops[0]);
        });
      }).catch(err=>{
 console.log(err);     })
-    // db.get()
-    //   .collection(collections.USER_CART_COLLECTION)
-    //   .removeOne({ user_id: object_id(decoded_token.id) })
-    //   .then((response) => {
-    //     resolve({status:status});
-    //   });
+    db.get()
+      .collection(collections.USER_CART_COLLECTION)
+      .removeOne({ user_id: object_id(decoded_token.id) })
+      .then((response) => {
+        resolve({status:status});
+      });
 })
 }
