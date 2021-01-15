@@ -21,7 +21,9 @@ return new Promise(async(resolve,reject)=>{
         status:status
     }
      db.get().collection(collections.ORDER_COLLECTION).insertOne(orderObject).then(response=>{
-console.log(response.ops[0]);
+console.log({status: status,
+  order_id: response.ops[0]._id,
+  total: response.ops[0].totalAmount.total,});
        resolve({
          status: status,
          order_id: response.ops[0]._id,
