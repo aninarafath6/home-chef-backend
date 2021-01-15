@@ -71,7 +71,7 @@ router.post("/add-to-cart", is_logged_user, (req, res) => {
   let token = req.headers.authorazation;
 
   add_to_cart(req.body.id, token).then((response) => {
-    res.send({ response: response });
+    res.send({ response: response,status:true });
   });
 });
 
