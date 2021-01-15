@@ -90,7 +90,7 @@ router.get("/cart-count", is_logged_user, (req, res) => {
   });
 });
 
-router.post("/change-quantity", is_logged_user, (req, res) => {
+router.post("/change-quantity", (req, res) => {
   console.log(req.body);
   change_quantity(req.body).then((response) => {
     res.send({ removeItem: response.removeItem });
