@@ -24,6 +24,7 @@ return new Promise(async(resolve,reject)=>{
 console.log({status: status,
   order_id: response.ops[0]._id,
   total: response.ops[0].totalAmount.total,});
+  console.log({orderResponse:response.ops[0]});
        resolve({
          status: status,
          order_id: response.ops[0]._id,
